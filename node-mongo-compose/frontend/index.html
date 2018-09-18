@@ -42,8 +42,20 @@
                 })
             }
 
+            const saveClient = () => {
+                const _id = $('[name=id]').val()
+                const name = $('[name=name]').val()
+                $.ajax({
+                    method: _id ? 'PUT' : 'POST',
+                    url: `${API}/cliets/${_id}`,
+                    data: _id ? { _id, name } : { name },
+                    success:getClients
+                })
+            }
+
             $(() => {
                 getClients()
+                $('[save]').click(saveClient)
             })
         </script>
     </body>
