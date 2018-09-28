@@ -31,7 +31,7 @@
         <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 
         <script>
-            const API = 'http://localhost:3000'
+            const API = 'http://localhost'
 
             const createButton = (label, type) => {
                 return $('<button>').addClass(`btn btn-${type}`).html(label)
@@ -40,7 +40,10 @@
             const renderRows = clients => {
                 const rows = clients.map(clients => {
                     const updateButton = createButton('Atualizar', 'Warning')
+                    updateButton.click(() => loadClient(client))
+
                     const removeButton = createButton('Excluir', 'danger')
+                    removeButton.click(() => removeClient(client))
 
                     return $('<tr>')
                         .append($('<td>').append(client.name))
@@ -49,11 +52,25 @@
                 $('#clientsRows').html(rows)
             }
 
+            const loadClient = client => {
+                $('[name=id]').val(client._id)
+                $('[name=name]').val(client.name)
+            }            
+
+            const removeClient = cliente => {
+                $.ajax({
+                    method: 'DELETE',
+                    url: `${API}/clients/${client._id}`,
+                    success: getClients
+                })
+            }
+
             const getClients = () => {
                 $.ajax({
                     url: `${API}/clients`,
                     success: clients => {
                         renderRows(clients)
+                        $('[name]').val('')
                     }
                 })
             }
