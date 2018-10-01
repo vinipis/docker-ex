@@ -9,19 +9,19 @@ services:
   db:
     image: postgres:9.6
     volumes:
-      #volume dos doados
+      # Volume dos dados
       - dados:/var/lib/postgresql/data
-       #scripts
+      # Scripts
       - ./scripts:/scripts
       - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - banco
-  frontend: 
+  frontend:
     image: nginx:1.13
     volumes:
-      #Site
+      # Site
       - ./web:/usr/share/nginx/html/
-      #Configuração do proxy reverso
+      # Configuração do proxy reverso
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     ports:
       - 80:80
@@ -32,7 +32,7 @@ services:
   app:
     image: python:3.6
     volumes:
-      #aplicação
+      # Aplicação
       - ./app:/app
     working_dir: /app
     command: bash ./app.sh
@@ -52,7 +52,7 @@ services:
   worker:
     build: worker
     volumes:
-      #Worker
+      # Worker
       - ./worker:/worker
     working_dir: /worker
     command: worker.py
