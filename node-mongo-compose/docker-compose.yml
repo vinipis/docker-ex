@@ -1,9 +1,9 @@
 version: '3'
 services:
   db:
-    image: mongo:3.4
+    image: mongo
   backend:
-    image: node:8.1
+    image: node
     volumes:
       - ./backend:/backend
     ports:
